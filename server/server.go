@@ -27,7 +27,10 @@ func Serve() {
 	http.Handle("/", r)
 
 	fmt.Println("Starting webserver on :80")
-	http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":80", nil)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func App(w http.ResponseWriter, r *http.Request) {
