@@ -14,12 +14,30 @@ func Serve() {
 	flag.Parse()
 
 	r := mux.NewRouter()
-	s := r.Host(*hostname).Subrouter()
-	s.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
-	s = r.Host("blog." + *hostname).Subrouter()
-	s.PathPrefix("/").Handler(http.FileServer(http.Dir("./blog/static/")))
+	r.PathPrefix("/static/").Handler(
+		http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
+
+	app := r.Host(*hostname).Subrouter()
+	app.HandleFunc("/", App)
+
+	blog := r.Host("blog." + *hostname).Subrouter()
+	blog.HandleFunc("/", Blog)
+	blog.HandleFunc("/posts", Posts)
+
 	http.Handle("/", r)
 
 	fmt.Println("Starting webserver on :80")
 	http.ListenAndServe(":80", nil)
+}
+
+func App(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/app.html")
+}
+
+func Blog(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/blog.html")
+}
+
+func Posts(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, `[{"title":"test"},{"title":"test 2"}]`)
 }
