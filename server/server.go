@@ -3,16 +3,17 @@ package server
 import (
 	"fmt"
 	"net/http"
-)
 
-var staticDir string = "static/"
+	"github.com/gorilla/mux"
+)
 
 func Serve() {
 	fmt.Println("Starting webserver on :80")
-	http.HandleFunc("/", handler)
+	r := mux.NewRouter()
+	s := r.Host("localhost").Subrouter()
+	s.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+	s = r.Host("blog.localhost").Subrouter()
+	s.PathPrefix("/").Handler(http.FileServer(http.Dir("./blog/static/")))
+	http.Handle("/", r)
 	http.ListenAndServe(":80", nil)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, staticDir+"index.html")
 }
