@@ -1,9 +1,10 @@
 package model
+
 import "fmt"
 
 type Post struct {
 	Title string `json:"title"`
-	Body string `json:"body"`
+	Body  string `json:"body"`
 }
 
 func ReadPosts() []Post {

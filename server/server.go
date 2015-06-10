@@ -1,12 +1,13 @@
 package server
 
 import (
+	"encoding/json"
+	"flag"
 	"fmt"
 	"net/http"
-	"flag"
-	"encoding/json"
 
 	"github.com/gorilla/mux"
+
 	"cloudpiece/model"
 )
 
@@ -14,7 +15,6 @@ var hostname = flag.String("hostname", "localhost", "The hostname to use for rou
 
 func Serve() {
 	flag.Parse()
-	model.ReadPosts()
 
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(
