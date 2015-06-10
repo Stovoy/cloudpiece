@@ -4,14 +4,17 @@ import (
 	"fmt"
 	"net/http"
 	"flag"
+	"encoding/json"
 
 	"github.com/gorilla/mux"
+	"cloudpiece/model"
 )
 
 var hostname = flag.String("hostname", "localhost", "The hostname to use for routing.")
 
 func Serve() {
 	flag.Parse()
+	model.ReadPosts()
 
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(
@@ -42,5 +45,13 @@ func Blog(w http.ResponseWriter, r *http.Request) {
 }
 
 func Posts(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, `[{"title":"test"},{"title":"test 2"}]`)
+	fmt.Fprint(w, JSON(model.ReadPosts()))
+}
+
+func JSON(value interface{}) string {
+	json, err := json.Marshal(value)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return string(json)
 }
