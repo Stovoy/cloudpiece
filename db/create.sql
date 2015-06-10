@@ -1,9 +1,10 @@
+DROP TABLE post;
+
 CREATE TABLE post
 (
-  id integer NOT NULL,
+  id serial PRIMARY KEY,
   title character varying(140) NOT NULL,
-  body text NOT NULL,
-  CONSTRAINT id PRIMARY KEY (id)
+  body text NOT NULL
 )
 WITH (
   OIDS=FALSE
