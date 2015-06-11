@@ -6,6 +6,25 @@
     <title>Welcome to my index</title>
 </head>
 <body>
-  Main app!
+  <script src="static/js/vendor/jquery.js"></script>
+  <script src="static/js/vendor/json2.js"></script>
+  <script src="static/js/vendor/underscore.js"></script>
+  <script src="static/js/vendor/backbone.js"></script>
+  <script src="static/js/app.js"></script>
+  <div id="app">
+    <section id="main">
+      <ul id="post-list"></ul>
+    </section>
+  </div>
+
+  <!-- Templates -->
+
+  <script type="text/template" id="post-template">
+    <div class="view">
+      <label><%- title %></label>
+      <a class="destroy"></a>
+    </div>
+    <input class="edit" type="text" value="<%- title %>" />
+  </script>
 </body>
 </html>

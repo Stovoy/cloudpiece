@@ -2,7 +2,7 @@ $(function(){
   var Post = Backbone.Model.extend({
     defaults: function() {
       return {
-        title: "...",
+        title: "..."
       };
     },
 
@@ -81,8 +81,6 @@ $(function(){
       Posts.fetch();
     },
 
-    // Re-rendering the App just means refreshing the statistics -- the rest
-    // of the app doesn't change.
     render: function() {
     },
 

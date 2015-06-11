@@ -17,7 +17,3 @@ func init() {
 
 	conn = db
 }
-
-type Model interface {
-	Read()
-}

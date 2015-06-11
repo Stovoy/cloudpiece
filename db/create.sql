@@ -1,5 +1,3 @@
-DROP TABLE post;
-
 CREATE TABLE post
 (
   id serial PRIMARY KEY,
@@ -11,3 +9,11 @@ WITH (
 );
 ALTER TABLE post
   OWNER TO postgres;
+
+CREATE TABLE component
+(
+  id serial PRIMARY KEY,
+  name character varying(80) NOT NULL,
+  version int NOT NULL,
+  date_created timestamp NOT NULL
+)

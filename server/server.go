@@ -22,6 +22,7 @@ func Serve() {
 
 	app := r.Host(*hostname).Subrouter()
 	app.HandleFunc("/", App)
+	app.HandleFunc("/versions/{component:[a-zA-Z-]", Versions)
 
 	blog := r.Host("blog." + *hostname).Subrouter()
 	blog.HandleFunc("/", Blog)
@@ -29,7 +30,7 @@ func Serve() {
 
 	http.Handle("/", r)
 
-	fmt.Println("Starting webserver on :80")
+	fmt.Println("Starting cloudpiece server on :80")
 	err := http.ListenAndServe(":80", nil)
 	if err != nil {
 		fmt.Println(err)
@@ -38,6 +39,12 @@ func Serve() {
 
 func App(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "static/app.html")
+}
+
+func Versions(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	component := vars["component"]
+	model.ReadComponentVersions(component)
 }
 
 func Blog(w http.ResponseWriter, r *http.Request) {
